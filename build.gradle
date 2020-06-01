@@ -4,8 +4,17 @@ plugins {
     //id("org.spongepowered.gradle.sponge.common")
 }
 
+logger.lifecycle("""
+	*************************************
+	Building Spunbric
+	
+	Output files will be in /build/libs
+	*************************************
+""")
+
 repositories {
     mavenCentral()
+    jcenter()
     maven{
         url = "https://repo.spongepowered.org/maven"
     }
@@ -19,6 +28,9 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:$project.fabric_version"
 
     implementation project("SpongeAPI")
+
+    implementation group: "javax.inject", name: "javax.inject", version: "1"
+    implementation group: "aopalliance", name: "aopalliance", version: "1.0"
 }
 
 sourceSets {

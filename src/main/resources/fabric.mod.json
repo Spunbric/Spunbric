@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "spunbric",
+  "version": "${mod_version}",
+  "name": "Spunbric",
+  "description": "An implementation of the Sponge API in a fabric mod",
+  "authors": [
+  ],
+  "contact": {
+    "sources": ""
+  },
+  "license": "MIT",
+  "icon": "assets/spunbric/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.i509.fabric.spunbric.client.SpunbricClientMod"
+    ],
+    "server": [
+      "me.i509.fabric.spunbric.server.SpunbricServerMod"
+    ],
+    "preLaunch": [
+      "me.i509.fabric.spunbric.launch.SpunbricPreLaunch"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabricloader": ">=0.8.0",
+    "fabric": ">=0.8.0"
+  }
+}
