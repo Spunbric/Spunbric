@@ -1,0 +1,29 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven{
+            url = "https://repo.spongepowered.org/maven"
+        }
+        maven {
+            url = "https://maven.fabricmc.net/"
+        }
+        gradlePluginPortal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id.startsWith("org.spongepowered.gradle.")) {
+                def version = requested.version ?: "0.11.3"
+                useModule("org.spongepowered:SpongeGradle:$version")
+            }
+        }
+    }
+
+}
+
+rootProject.name = 'Spunbric'
+
+include "SpongeAPI"
