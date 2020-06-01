@@ -1,5 +1,6 @@
 plugins {
     id "fabric-loom" version "0.4.3"
+    id 'net.minecrell.licenser' version "0.4.1"
     //id("org.spongepowered.gradle.sponge.common")
 }
 
@@ -18,4 +19,64 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:$project.fabric_version"
 
     implementation project("SpongeAPI")
+}
+
+sourceSets {
+    accessors {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
+    main {
+        compileClasspath += accessors.compileClasspath + accessors.output
+    }
+    mixin {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    // Blursed handling for separate source sets in loom
+    options.annotationProcessorPath += configurations.annotationProcessor
+    doFirst {
+        def args = options.compilerArgs
+        project.minecraft {
+            args.add "-AinMapFileNamedIntermediary=" + mappingsProvider.tinyMappings.canonicalPath
+            args.add "-AoutMapFileNamedIntermediary=" + mappingsProvider.mappingsMixinExport.canonicalPath
+            args.add "-AoutRefMapFile=" + new File(destinationDir, refmapName).canonicalPath
+            args.add "-AdefaultObfuscationEnv=named:intermediary"
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources"
+    from sourceSets.main.allSource
+}
+
+jar {
+    from "LICENSE"
+    from sourceSets.accessors.output
+    from sourceSets.mixin.output
+}
+
+// Licenser
+license {
+    header = file("LICENSE.txt")
+    include "**/*.java"
+    style.java = "BLOCK_COMMENT"
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+afterEvaluate {
+    artifacts {
+        archives remapJar
+        archives(sourcesJar) {
+            classifier = "sources"
+            builtBy remapSourcesJar
+        }
+    }
 }
