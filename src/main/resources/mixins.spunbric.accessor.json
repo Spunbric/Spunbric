@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.i509.fabric.spunbric.accessors",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixinPriority": 800,
+  "mixins": [
+  ],
+  "server": [
+  ],
+  "client": [
+  ]
+}

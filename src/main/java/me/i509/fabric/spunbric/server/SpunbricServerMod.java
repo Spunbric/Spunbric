@@ -51,7 +51,7 @@ public class SpunbricServerMod extends AbstractSpunbricMod implements DedicatedS
 
     @Override
     public final void onInitializeServer() {
-        AbstractSpunbricMod.getLogger().info("Spunbric is initializing in a client environment...");
+        AbstractSpunbricMod.getLogger().info("Spunbric is initializing in a server environment...");
         this.onInitialize();
     }
 }

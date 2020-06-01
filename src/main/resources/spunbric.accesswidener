@@ -1,0 +1,4 @@
+accessWidener   v1  named
+# AccessWideners are highly discouraged and should be a last resort.
+# Accessors and Bridge (Duck) mixins are much prefered and should be your goal to attempt before adding AWs.
+# If you feel there is no other alternative to creating an access transformer, speak with the developers to absolutely verify there is no other way.

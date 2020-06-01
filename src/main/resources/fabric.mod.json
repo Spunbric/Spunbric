@@ -3,7 +3,7 @@
   "id": "spunbric",
   "version": "${mod_version}",
   "name": "Spunbric",
-  "description": "An implementation of the Sponge API in a fabric mod",
+  "description": "An unoffical implementation of the Sponge API in a fabric mod",
   "authors": [
   ],
   "contact": {
@@ -24,9 +24,12 @@
     ]
   },
   "mixins": [
+    "mixins.spunbric.accessor.json",
+    "mixins.spunbric.api.json"
   ],
   "depends": {
     "fabricloader": ">=0.8.0",
     "fabric": ">=0.8.0"
-  }
+  },
+  "accessWidener": "spunbric.accessWidener"
 }

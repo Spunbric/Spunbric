@@ -31,6 +31,12 @@ dependencies {
 
     implementation group: "javax.inject", name: "javax.inject", version: "1"
     implementation group: "aopalliance", name: "aopalliance", version: "1.0"
+
+    // FIXME: Temporary hack
+    //afterEvaluate {
+    //   implementation sourceSets.accessors.output
+    //    implementation sourceSets.mixin.output
+    //}
 }
 
 sourceSets {
@@ -47,6 +53,10 @@ sourceSets {
     }
 }
 
+minecraft {
+    accessWidener = file("src/main/resources/spunbric.accesswidener")
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
     // Blursed handling for separate source sets in loom
@@ -60,11 +70,6 @@ tasks.withType(JavaCompile) {
             args.add "-AdefaultObfuscationEnv=named:intermediary"
         }
     }
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
-    from sourceSets.main.allSource
 }
 
 jar {
@@ -86,9 +91,5 @@ targetCompatibility = JavaVersion.VERSION_1_8
 afterEvaluate {
     artifacts {
         archives remapJar
-        archives(sourcesJar) {
-            classifier = "sources"
-            builtBy remapSourcesJar
-        }
     }
 }

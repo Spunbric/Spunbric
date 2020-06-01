@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.i509.fabric.spunbric.mixin",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixinPriority": 900,
+  "mixins": [
+    "yarn.server.MinecraftServerMixin_API"
+  ],
+  "server": [
+  ],
+  "client": [
+  ]
+}
