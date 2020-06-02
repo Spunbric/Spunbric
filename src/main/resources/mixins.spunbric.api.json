@@ -18,6 +18,7 @@
     "yarn.util.IdentifierMixin_API"
   ],
   "client": [
+    "yarn.client.MinecraftClientMixin_API",
     "yarn.server.integrated.IntegratedServerMixin_API"
   ]
 }

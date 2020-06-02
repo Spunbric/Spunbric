@@ -24,49 +24,52 @@
  * THE SOFTWARE.
  */
 
-package me.i509.fabric.spunbric.mixin.yarn.block;
+package me.i509.fabric.spunbric.mixin.yarn.client;
 
-import org.spongepowered.api.block.BlockSnapshot;
-import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.block.BlockType;
-import org.spongepowered.api.data.persistence.DataContainer;
-import org.spongepowered.api.fluid.FluidState;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.asm.mixin.Intrinsic;
+import java.util.Optional;
+
+import javax.annotation.Nullable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import org.spongepowered.api.Client;
+import org.spongepowered.api.client.LocalServer;
+import org.spongepowered.api.entity.living.player.client.LocalPlayer;
+import org.spongepowered.api.scheduler.Scheduler;
+import org.spongepowered.api.world.client.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.server.integrated.IntegratedServer;
 
-import me.i509.fabric.spunbric.mixin.yarn.state.AbstractStateMixin_API;
-
-@Mixin(net.minecraft.block.BlockState.class)
-public abstract class BlockStateMixin_API extends AbstractStateMixin_API<BlockState, net.minecraft.block.BlockState> implements BlockState {
-    @Shadow public abstract Block shadow$getBlock();
-    @Shadow public abstract net.minecraft.fluid.FluidState shadow$getFluidState();
-
-    @Override
-    public BlockType getType() {
-        return (BlockType) this.shadow$getBlock();
-    }
-
-    @Intrinsic
-    public FluidState getFluidState() {
-        return (FluidState) this.shadow$getFluidState();
-    }
+@Environment(EnvType.CLIENT)
+@Mixin(MinecraftClient.class)
+public abstract class MinecraftClientMixin_API implements Client {
+    @Shadow protected abstract Thread shadow$getThread();
+    @Shadow public abstract IntegratedServer shadow$getServer();
 
     @Override
-    public int getContentVersion() {
+    public Optional<LocalPlayer> getPlayer() {
         throw new AssertionError("Implement Me");
     }
 
     @Override
-    public DataContainer toContainer() {
+    public Optional<LocalServer> getServer() {
+        return Optional.ofNullable((LocalServer) this.shadow$getServer());
+    }
+
+    @Override
+    public Optional<ClientWorld> getWorld() {
         throw new AssertionError("Implement Me");
     }
 
     @Override
-    public BlockSnapshot snapshotFor(Location location) {
-        throw new AssertionError("Implement Me: Core");
+    public Scheduler getScheduler() {
+        throw new AssertionError("Implement Me");
+    }
+
+    @Override
+    public boolean onMainThread() {
+        return this.shadow$getThread() == Thread.currentThread();
     }
 }
