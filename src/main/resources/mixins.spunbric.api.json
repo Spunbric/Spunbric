@@ -6,6 +6,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixinPriority": 900,
   "mixins": [
+    "yarn.block.BlockMixin_API",
+    "yarn.item.ItemMixin_API",
     "yarn.server.MinecraftServerMixin_API",
     "yarn.server.dedicated.MinecraftDedicatedServerMixin_API",
     "yarn.util.IdentifierMixin_API"
