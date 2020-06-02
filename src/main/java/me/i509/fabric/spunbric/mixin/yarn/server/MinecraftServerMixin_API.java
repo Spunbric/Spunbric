@@ -26,11 +26,15 @@
 
 package me.i509.fabric.spunbric.mixin.yarn.server;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.net.InetSocketAddress;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableList;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.profile.GameProfileManager;
@@ -41,49 +45,69 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.world.server.WorldManager;
 import org.spongepowered.api.world.storage.ChunkLayout;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Implements;
 import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Intrinsic;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.PlayerManager;
+import net.minecraft.util.math.MathHelper;
+
+import me.i509.fabric.spunbric.world.storage.SpunbricChunkLayout;
 
 @Mixin(MinecraftServer.class)
 @Implements(value = @Interface(iface = Server.class, prefix = "server$"))
 public abstract class MinecraftServerMixin_API implements Server {
+    @Shadow public abstract Thread shadow$getThread();
+    @Shadow public abstract void shadow$stop(boolean bl);
+    @Shadow public abstract int shadow$getTicks();
+    @Shadow public abstract PlayerManager shadow$getPlayerManager();
+    @Shadow public abstract boolean shadow$isOnlineMode();
+    @Shadow public abstract int shadow$getPlayerIdleTimeout();
+    @Shadow public abstract void shadow$setPlayerIdleTimeout(int playerIdleTimeout);
+    @Shadow @Final public long[] lastTickLengths;
+
+    // TODO: Scheduler, Scoreboard, ProfileManager, MessageChannel
+    //private MessageChannel api$broadcastChannel = MessageChannel.toPlayersAndServer();
+
     @Override
     public ChunkLayout getChunkLayout() {
-        throw new AssertionError("Implement Me");
+        return SpunbricChunkLayout.INSTANCE;
     }
 
     @Override
     public MessageChannel getBroadcastChannel() {
-        throw new AssertionError("Implement Me");
+        //return this.api$broadcastChannel;
+        throw new AssertionError("Implement Me"); // TODO
     }
 
     @Override
     public void setBroadcastChannel(final MessageChannel channel) {
-        throw new AssertionError("Implement Me");
+        //this.api$broadcastChannel = checkNotNull(channel, "channel");
+        throw new AssertionError("Implement Me"); // TODO
     }
 
     @Override
     public Optional<InetSocketAddress> getBoundAddress() {
-        throw new AssertionError("Implement Me");
+        return Optional.empty();
     }
 
     @Override
     public boolean hasWhitelist() {
-        throw new AssertionError("Implement Me");
+        return this.shadow$getPlayerManager().isWhitelistEnabled();
     }
 
     @Override
     public void setHasWhitelist(final boolean enabled) {
-        throw new AssertionError("Implement Me");
+        this.shadow$getPlayerManager().setWhitelistEnabled(enabled);
     }
 
     @Override
     public boolean getOnlineMode() {
-        throw new AssertionError("Implement Me");
+        return this.shadow$isOnlineMode();
     }
 
     @Override
@@ -92,87 +116,112 @@ public abstract class MinecraftServerMixin_API implements Server {
     }
 
     @Override
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public Collection<Player> getOnlinePlayers() {
-        throw new AssertionError("Implement Me");
+        if (this.shadow$getPlayerManager() == null || this.shadow$getPlayerManager().getPlayerList() == null) {
+            return ImmutableList.of();
+        }
+
+        return ImmutableList.copyOf((List) this.shadow$getPlayerManager().getPlayerList());
     }
 
     @Override
     public Optional<Player> getPlayer(UUID uniqueId) {
-        throw new AssertionError("Implement Me");
+        if (this.shadow$getPlayerManager() == null) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable((Player) this.shadow$getPlayerManager().getPlayer(uniqueId));
     }
 
     @Override
     public Optional<Player> getPlayer(String name) {
-        throw new AssertionError("Implement Me");
+        if (this.shadow$getPlayerManager() == null) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable((Player) this.shadow$getPlayerManager().getPlayer(name));
     }
 
     @Override
     public Text getMotd() {
+        // TODO
         throw new AssertionError("Implement Me");
     }
 
     @Override
     public int getMaxPlayers() {
-        throw new AssertionError("Implement Me");
+        if (this.shadow$getPlayerManager() == null) {
+            return 0;
+        }
+
+        return this.shadow$getPlayerManager().getMaxPlayerCount();
     }
 
     @Override
     public int getRunningTimeTicks() {
-        throw new AssertionError("Implement Me");
+        return this.shadow$getTicks();
     }
 
     @Override
     public double getTicksPerSecond() {
-        throw new AssertionError("Implement Me");
+        final double nanoSPerTick = MathHelper.average(this.lastTickLengths);
+        // Cap at 20 TPS
+        return 1000 / Math.max(50, nanoSPerTick / 1000000);
     }
 
     @Intrinsic
     public void server$shutdown() {
-        throw new AssertionError("Implement Me");
+        this.shadow$stop(false);
     }
 
     @Override
     public void shutdown(final Text kickMessage) {
+        // TODO - Text
         throw new AssertionError("Implement Me");
     }
 
     @Override
     public GameProfileManager getGameProfileManager() {
+        // TODO
         throw new AssertionError("Implement Me");
     }
 
     @Override
     public Optional<ResourcePack> getDefaultResourcePack() {
+        // TODO
         throw new AssertionError("Implement Me");
     }
 
     @Override
     public Optional<Scoreboard> getServerScoreboard() {
-        throw new AssertionError("Implement Me");
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
-    @Override
-    public int getPlayerIdleTimeout() {
+        // TODO
         throw new AssertionError("Implement Me");
     }
 
     @Intrinsic
+    public int server$getPlayerIdleTimeout() {
+        return this.shadow$getPlayerIdleTimeout();
+    }
+
+    @Intrinsic
     public void server$setPlayerIdleTimeout(int timeout) {
-        throw new AssertionError("Implement Me");
+        this.shadow$setPlayerIdleTimeout(timeout);
     }
 
     @Override
     public Scheduler getScheduler() {
+        // TODO
         throw new AssertionError("Implement Me");
     }
 
     @Override
     public boolean onMainThread() {
-        throw new AssertionError("Implement Me");
+        return this.shadow$getThread() == Thread.currentThread();
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 }
