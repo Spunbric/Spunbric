@@ -38,6 +38,9 @@ import org.spongepowered.api.registry.BuilderRegistry;
 import org.spongepowered.api.registry.DuplicateRegistrationException;
 import org.spongepowered.api.registry.UnknownTypeException;
 import org.spongepowered.api.util.ResettableBuilder;
+import org.spongepowered.api.world.biome.VirtualBiomeType;
+
+import me.i509.fabric.spunbric.world.biome.SpunbricVirtualBiomeTypeBuilder;
 
 @Singleton
 @SuppressWarnings("unchecked")
@@ -76,6 +79,7 @@ public class SpunbricBuilderRegistry implements BuilderRegistry {
     public void registerDefaultBuilders() {
         // TODO: Register all builders
         this
-            .register(CatalogKey.Builder.class, SpunbricCatalogKeyBuilder::new);
+            .register(CatalogKey.Builder.class, SpunbricCatalogKeyBuilder::new)
+            .register(VirtualBiomeType.Builder.class, SpunbricVirtualBiomeTypeBuilder::new);
     }
 }

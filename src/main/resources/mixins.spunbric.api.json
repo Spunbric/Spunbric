@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixinPriority": 900,
   "mixins": [
+    "yarn.biome.BiomeMixin_API",
     "yarn.block.BlockMixin_API",
     "yarn.block.BlockStateMixin_API",
     "yarn.fluid.FluidMixin_API",
