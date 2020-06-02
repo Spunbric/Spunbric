@@ -7,12 +7,15 @@
   "mixinPriority": 900,
   "mixins": [
     "yarn.block.BlockMixin_API",
+    "yarn.block.BlockStateMixin_API",
+    "yarn.fluid.FluidMixin_API",
+    "yarn.fluid.FluidStateMixin_API",
     "yarn.item.ItemMixin_API",
     "yarn.server.MinecraftServerMixin_API",
     "yarn.server.dedicated.MinecraftDedicatedServerMixin_API",
+    "yarn.state.AbstractStateMixin_API",
+    "yarn.state.StateMixin_API",
     "yarn.util.IdentifierMixin_API"
-  ],
-  "server": [
   ],
   "client": [
     "yarn.server.integrated.IntegratedServerMixin_API"
