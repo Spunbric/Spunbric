@@ -26,9 +26,13 @@
 
 package me.i509.fabric.spunbric;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.nio.file.Path;
 import java.util.Locale;
 
+import com.google.common.base.MoreObjects;
+import net.fabricmc.loader.api.FabricLoader;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.GameState;
 import org.spongepowered.api.Server;
@@ -38,9 +42,15 @@ import org.spongepowered.api.scheduler.Scheduler;
 import net.minecraft.server.MinecraftServer;
 
 public abstract class AbstractSpunbricGame implements Game {
+    private GameState state;
+
     @Override
     public GameState getState() {
-        throw new AssertionError("Implement Me");
+        return this.state;
+    }
+
+    public void setState(GameState state) {
+        this.state = checkNotNull(state);
     }
 
     @Override
@@ -50,7 +60,7 @@ public abstract class AbstractSpunbricGame implements Game {
 
     @Override
     public Path getGameDirectory() {
-        throw new AssertionError("Implement Me");
+        return FabricLoader.getInstance().getGameDirectory().toPath();
     }
 
     @Override
@@ -77,5 +87,12 @@ public abstract class AbstractSpunbricGame implements Game {
     @Override
     public Locale getLocale(String locale) {
         throw new AssertionError("Implement Me");
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("platform", this.getPlatform())
+                .toString();
     }
 }

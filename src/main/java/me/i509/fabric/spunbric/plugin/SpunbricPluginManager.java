@@ -27,14 +27,24 @@
 package me.i509.fabric.spunbric.plugin;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
+import net.fabricmc.loader.api.ModContainer;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.plugin.PluginManager;
 
 public class SpunbricPluginManager implements PluginManager {
+    private final Map<ModContainer, PluginContainer> pluginContainersByMod = new HashMap<>();
+    private final Map<PluginContainer, ModContainer> modContainersByPlugin = new HashMap<>();
+
     @Override
     public Optional<PluginContainer> fromInstance(Object instance) {
+        if (instance instanceof ModContainer) { // If a mod container is passed, use that to get the plugin containers
+            return Optional.ofNullable(this.pluginContainersByMod.get(instance));
+        }
+
         throw new AssertionError("Implement Me");
     }
 

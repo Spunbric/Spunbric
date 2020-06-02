@@ -26,16 +26,36 @@
 
 package me.i509.fabric.spunbric;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.HashMap;
 import java.util.Map;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import org.spongepowered.api.MinecraftVersion;
 import org.spongepowered.api.Platform;
 import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.plugin.PluginManager;
 
+@Singleton
 public class SpunbricPlatform implements Platform {
+    protected final Map<String, Object> platformMap = new SpunbricPlatform.PlatformMap();
+    private final MinecraftVersion minecraftVersion;
+
+    @Inject
+    public SpunbricPlatform(PluginManager pluginManager, MinecraftVersion version) {
+        this.minecraftVersion = checkNotNull(version);
+
+        // TODO: Populate platform map
+    }
+
     @Override
     public Type getType() {
-        throw new AssertionError("Implement Me");
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER ? Type.SERVER : Type.CLIENT;
     }
 
     @Override
@@ -50,11 +70,21 @@ public class SpunbricPlatform implements Platform {
 
     @Override
     public MinecraftVersion getMinecraftVersion() {
-        return SpunbricImpl.MINECRAFT_VERSION;
+        return this.minecraftVersion;
     }
 
     @Override
     public Map<String, Object> asMap() {
-        throw new AssertionError("Implement Me");
+        return this.platformMap;
+    }
+
+    static final class PlatformMap extends HashMap<String, Object> {
+        private static final long serialVersionUID = 7022397614988467398L;
+
+        @Override
+        public Object put(String key, Object value) {
+            checkArgument(!this.containsKey(key), "Cannot set the value of the existing key %s", key);
+            return super.put(key, value);
+        }
     }
 }
