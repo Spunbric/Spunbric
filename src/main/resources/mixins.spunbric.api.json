@@ -7,7 +7,8 @@
   "mixinPriority": 900,
   "mixins": [
     "yarn.server.MinecraftServerMixin_API",
-    "yarn.server.dedicated.MinecraftDedicatedServerMixin_API"
+    "yarn.server.dedicated.MinecraftDedicatedServerMixin_API",
+    "yarn.util.IdentifierMixin_API"
   ],
   "server": [
   ],

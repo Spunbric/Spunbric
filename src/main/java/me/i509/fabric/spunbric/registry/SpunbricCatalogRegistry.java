@@ -26,52 +26,33 @@
 
 package me.i509.fabric.spunbric.registry;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import org.spongepowered.api.item.merchant.VillagerRegistry;
-import org.spongepowered.api.item.recipe.RecipeRegistry;
-import org.spongepowered.api.registry.BuilderRegistry;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import org.spongepowered.api.CatalogKey;
+import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.registry.CatalogRegistry;
-import org.spongepowered.api.registry.FactoryRegistry;
-import org.spongepowered.api.registry.GameRegistry;
+import org.spongepowered.api.registry.UnknownTypeException;
 
-@Singleton
-public final class SpunbricGameRegistry implements GameRegistry {
-
-    private final SpunbricCatalogRegistry catalogRegistry;
-    private final SpunbricBuilderRegistry builderRegistry;
-    private final SpunbricFactoryRegistry factoryRegistry;
-
-    @Inject
-    public SpunbricGameRegistry(final SpunbricCatalogRegistry catalogRegistry, final SpunbricBuilderRegistry builderRegistry,
-        final SpunbricFactoryRegistry factoryRegistry) {
-        this.catalogRegistry = catalogRegistry;
-        this.builderRegistry = builderRegistry;
-        this.factoryRegistry = factoryRegistry;
-    }
-
+public class SpunbricCatalogRegistry implements CatalogRegistry {
     @Override
-    public SpunbricCatalogRegistry getCatalogRegistry() {
-        return this.catalogRegistry;
-    }
-
-    @Override
-    public SpunbricBuilderRegistry getBuilderRegistry() {
-        return this.builderRegistry;
-    }
-
-    @Override
-    public SpunbricFactoryRegistry getFactoryRegistry() {
-        return this.factoryRegistry;
-    }
-
-    @Override
-    public RecipeRegistry getRecipeRegistry() {
+    public <T extends CatalogType, E extends T> Supplier<E> provideSupplier(Class<T> catalogClass, String suggestedId) throws UnknownTypeException {
         throw new AssertionError("Implement Me");
     }
 
     @Override
-    public VillagerRegistry getVillagerRegistry() {
+    public <T extends CatalogType> Optional<T> get(Class<T> typeClass, CatalogKey key) {
+        throw new AssertionError("Implement Me");
+    }
+
+    @Override
+    public <T extends CatalogType> Stream<T> getAllOf(Class<T> typeClass) {
+        throw new AssertionError("Implement Me");
+    }
+
+    @Override
+    public <T extends CatalogType> Stream<T> getAllFor(Class<T> typeClass, String namespace) {
         throw new AssertionError("Implement Me");
     }
 }
