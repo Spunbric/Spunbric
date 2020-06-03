@@ -13,6 +13,7 @@
     "yarn.fluid.FluidMixin_API",
     "yarn.fluid.FluidStateMixin_API",
     "yarn.item.ItemMixin_API",
+    "yarn.item.ItemStackMixin_API",
     "yarn.server.MinecraftServerMixin_API",
     "yarn.server.dedicated.MinecraftDedicatedServerMixin_API",
     "yarn.state.AbstractStateMixin_API",
