@@ -24,13 +24,24 @@
  * THE SOFTWARE.
  */
 
-package me.i509.fabric.spunbric.launch;
+package me.i509.fabric.spunbric.util;
 
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+public class NativeException extends IllegalArgumentException {
 
-public class SpunbricPreLaunch implements PreLaunchEntrypoint {
-    @Override
-    public void onPreLaunch() {
-        // TODO: Setup pre launch stuff related to plugins (NOT LOADING THEM OR FINDING THEM)
+    private static final long serialVersionUID = -2827665497440467795L;
+
+    public NativeException() {
+    }
+
+    public NativeException(String s) {
+        super(s);
+    }
+
+    public NativeException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public NativeException(Throwable cause) {
+        super(cause);
     }
 }

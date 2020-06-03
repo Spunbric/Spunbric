@@ -24,13 +24,17 @@
  * THE SOFTWARE.
  */
 
-package me.i509.fabric.spunbric.launch;
+package me.i509.fabric.spunbric;
 
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemStack;
 
-public class SpunbricPreLaunch implements PreLaunchEntrypoint {
-    @Override
-    public void onPreLaunch() {
-        // TODO: Setup pre launch stuff related to plugins (NOT LOADING THEM OR FINDING THEM)
+public final class SpunbricImplHooks {
+
+    private SpunbricImplHooks() {
+    }
+
+    public static boolean canEnchantmentBeAppliedToItem(final Enchantment enchantment, ItemStack itemStack) {
+        return enchantment.isAcceptableItem(itemStack);
     }
 }

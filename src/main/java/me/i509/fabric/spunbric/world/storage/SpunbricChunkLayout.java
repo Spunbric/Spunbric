@@ -29,7 +29,7 @@ package me.i509.fabric.spunbric.world.storage;
 import org.spongepowered.api.world.storage.ChunkLayout;
 import org.spongepowered.math.vector.Vector3i;
 
-public class SpunbricChunkLayout implements ChunkLayout {
+public final class SpunbricChunkLayout implements ChunkLayout {
 
     public static final Vector3i CHUNK_SIZE = new Vector3i(16, 256, 16);
     private static final Vector3i CHUNK_MASK = CHUNK_SIZE.sub(1, 1, 1);

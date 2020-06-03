@@ -24,13 +24,22 @@
  * THE SOFTWARE.
  */
 
-package me.i509.fabric.spunbric.launch;
+package me.i509.fabric.spunbric.util;
 
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+public class NativeStackException extends NativeException {
 
-public class SpunbricPreLaunch implements PreLaunchEntrypoint {
-    @Override
-    public void onPreLaunch() {
-        // TODO: Setup pre launch stuff related to plugins (NOT LOADING THEM OR FINDING THEM)
+    private static final long serialVersionUID = 1L;
+
+    public NativeStackException(String s) {
+        super(s);
     }
+
+    public NativeStackException(Throwable cause) {
+        super(cause);
+    }
+
+    public NativeStackException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

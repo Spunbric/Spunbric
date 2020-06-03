@@ -41,6 +41,9 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import me.i509.fabric.spunbric.SpunbricImplHooks;
+import me.i509.fabric.spunbric.util.ItemStackUtil;
+
 @Mixin(Enchantment.class)
 @Implements(@Interface(iface = EnchantmentType.class, prefix = "enchantment$"))
 public abstract class EnchantmentMixin_API implements EnchantmentType {
@@ -81,7 +84,7 @@ public abstract class EnchantmentMixin_API implements EnchantmentType {
 
     @Override
     public boolean canBeAppliedToStack(ItemStack stack) {
-        throw new AssertionError("Implement Me");
+        return SpunbricImplHooks.canEnchantmentBeAppliedToItem((Enchantment) (Object) this, ItemStackUtil.toNative(stack));
     }
 
     @Override
