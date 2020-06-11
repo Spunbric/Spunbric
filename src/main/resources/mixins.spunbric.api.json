@@ -9,6 +9,7 @@
     "yarn.biome.BiomeMixin_API",
     "yarn.block.BlockMixin_API",
     "yarn.block.BlockStateMixin_API",
+    "yarn.block.entity.BlockEntityTypeMixin_API",
     "yarn.enchantment.EnchantmentMixin_API",
     "yarn.entity.EntityTypeMixin_API",
     "yarn.fluid.FluidMixin_API",

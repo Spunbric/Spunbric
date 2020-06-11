@@ -24,42 +24,34 @@
  * THE SOFTWARE.
  */
 
-package me.i509.fabric.spunbric.mixin.yarn.entity;
+package me.i509.fabric.spunbric.mixin.yarn.block.entity;
 
 import static com.google.common.base.Preconditions.checkState;
 
 import org.spongepowered.api.CatalogKey;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.text.translation.Translation;
+import org.spongepowered.api.block.BlockType;
+import org.spongepowered.api.block.entity.BlockEntityType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import me.i509.fabric.spunbric.SpunbricTranslation;
-
-@Mixin(net.minecraft.entity.EntityType.class)
-public abstract class EntityTypeMixin_API implements EntityType {
-    @Shadow public abstract String shadow$getTranslationKey();
-
-    private Translation api$translation;
+@Mixin(net.minecraft.block.entity.BlockEntityType.class)
+public abstract class BlockEntityTypeMixin_API implements BlockEntityType {
+    @Shadow public abstract boolean shadow$supports(Block block);
 
     @Override
-    public CatalogKey getKey() {
-        final Identifier id = Registry.ENTITY_TYPE.getId((net.minecraft.entity.EntityType) (Object) this);
-        checkState(id != null, "Attempted to access the id before the EntityType is registered.");
-
-        return (CatalogKey) (Object) id;
+    public boolean isValidBlock(BlockType block) {
+        return this.shadow$supports((Block) block);
     }
 
     @Override
-    public Translation getTranslation() {
-        if (this.api$translation == null) {
-            this.api$translation = new SpunbricTranslation(this.shadow$getTranslationKey());
-        }
+    public CatalogKey getKey() {
+        final Identifier id = Registry.BLOCK_ENTITY.getId((net.minecraft.block.entity.BlockEntityType<?>) (Object) this);
+        checkState(id != null, "Attempted to access the id before the BlockEntityType is registered.");
 
-        return this.api$translation;
+        return (CatalogKey) (Object) id;
     }
 }
