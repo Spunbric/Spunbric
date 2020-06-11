@@ -10,6 +10,7 @@
     "yarn.block.BlockMixin_API",
     "yarn.block.BlockStateMixin_API",
     "yarn.enchantment.EnchantmentMixin_API",
+    "yarn.entity.EntityTypeMixin_API",
     "yarn.fluid.FluidMixin_API",
     "yarn.fluid.FluidStateMixin_API",
     "yarn.item.ItemMixin_API",
