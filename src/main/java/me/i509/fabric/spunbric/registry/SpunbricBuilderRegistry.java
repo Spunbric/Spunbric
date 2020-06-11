@@ -50,6 +50,7 @@ public class SpunbricBuilderRegistry implements BuilderRegistry {
 
     public SpunbricBuilderRegistry() {
         builders = new Object2ObjectArrayMap<>();
+        this.registerDefaultBuilders(); // TODO: is this the right spot?
     }
 
     @Override
