@@ -18,7 +18,9 @@
     "yarn.server.dedicated.MinecraftDedicatedServerMixin_API",
     "yarn.state.AbstractStateMixin_API",
     "yarn.state.StateMixin_API",
-    "yarn.util.IdentifierMixin_API"
+    "yarn.util.IdentifierMixin_API",
+    "yarn.village.VillagerProfessionMixin_API",
+    "yarn.village.VillagerTypeMixin_API"
   ],
   "client": [
     "yarn.client.MinecraftClientMixin_API",
